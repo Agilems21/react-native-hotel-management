@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {View,TouchableOpacity,Text,TextInput,ScrollView,ListView,Dimensions} from 'react-native'
 import {Body,Icon,Left,CheckBox,Footer,Title,Right,Button,Header,Container,Item,Input,Content,ListItem} from 'native-base'
 import Collapsible from 'react-native-collapsible';
+import BottomBorder from '../../BottomBorderWrapper'
 var {width,height} = Dimensions.get('window')
 
 class NewReservation extends Component {
@@ -114,13 +115,15 @@ class NewReservation extends Component {
                         </FormItem>
                         <View style={{height:0.02*height}}/>
                         <View style={{height:0.04*height,paddingLeft:10}}>
-                            <TouchableOpacity onPress={()=>this.setState({additionalDetails:!this.state.additionalDetails})} style={{flex:1,alignItems:'center',paddingTop:10,paddingRight:10, flexDirection:'row',justifyContent:'space-between',alignItems:'flex-end'}}>
+                            <BottomBorder>
+                                <TouchableOpacity onPress={()=>this.setState({additionalDetails:!this.state.additionalDetails})} style={{flex:1,alignItems:'center',paddingTop:10,paddingRight:10, flexDirection:'row',justifyContent:'space-between',alignItems:'flex-end'}}>
                                     <Text style={{fontSize:13,color:'darkgrey'}}>ADDITIONAL DETAILS</Text>
                                     {this.state.additionalDetails ? 
                                     <Icon style={{fontSize:18,color:'lightgrey'}} name='ios-arrow-forward'/>:
                                     <Icon style={{fontSize:18,color:'lightgrey'}} name='ios-arrow-down'/>
                                     }
-                            </TouchableOpacity>
+                                </TouchableOpacity>
+                            </BottomBorder>
                         </View>
                         <View style={{height:0.01*height}}/>
                         <Collapsible collapsed={this.state.additionalDetails}>
@@ -181,9 +184,51 @@ class NewReservation extends Component {
                                 </TouchableOpacity>
                             </FormItem>
                         </Collapsible>
+                        <View style={{height:0.04*height}}/>
+                        <FormItem topPadding={15} bottomPadding={15}>
+                            <Text style={{flex:1,fontSize:16}}>Guarantee</Text>
+                            <View style={{flex:1.5}}/>
+                            <TouchableOpacity style={{flexDirection:'row',justifyContent:'space-around',flex:1.5}}>
+                                <Text style={{color:'grey',fontSize:16}}>Not-guaranteed</Text>
+                                <Icon style={{fontSize:18,color:'grey'}} name='ios-arrow-forward'/>
+                            </TouchableOpacity>
+                        </FormItem>
+                        <View style={{height:0.04*height}}/>
+                        <FormItem topPadding={15} bottomPadding={15}>
+                            <Text style={{flex:1.5,fontSize:16}}>Sharer</Text>
+                            <View style={{flex:1.5}}/>
+                            <TouchableOpacity style={{flexDirection:'row',justifyContent:'space-around',flex:1}}>
+                                <Text style={{color:'grey',fontSize:16}}>Not Set</Text>
+                                <Icon style={{fontSize:18,color:'grey'}} name='ios-arrow-forward'/>
+                            </TouchableOpacity>
+                        </FormItem>
+                        <View style={{height:0.04*height}}/>
+                        <FormItem topPadding={15} bottomPadding={15}>
+                            <Text style={{flex:1.5,fontSize:16}}>Booker</Text>
+                            <View style={{flex:1.5}}/>
+                            <TouchableOpacity style={{flexDirection:'row',justifyContent:'space-around',flex:1}}>
+                                <Text style={{color:'grey',fontSize:16}}>Not Set</Text>
+                                <Icon style={{fontSize:18,color:'grey'}} name='ios-arrow-forward'/>
+                            </TouchableOpacity>
+                        </FormItem>
+                        <View style={{height:0.04*height}}/>
+                         <FormItem topPadding={15} bottomPadding={15}>
+                            <TouchableOpacity style={{flexDirection:'row',justifyContent:'space-around',flex:0.25}}>
+                                <Text style={{flex:2.25,fontSize:16}}>Billing Instructions</Text>
+                                <Icon style={{fontSize:18,color:'grey'}} name='ios-arrow-forward'/>
+                            </TouchableOpacity>
+                        </FormItem>
+                        <View style={{height:0.04*height}}/>
                     </ScrollView>
                     
                 </Content>
+                <Footer style={{flexDirection:'row',alignItems:'center',justifyContent:'flex-start',padding:5,height:Dimensions.get('window').height*0.07}}>
+                      <View style={{flex:3,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+                        <Button transparent><Icon style={{fontSize:40,color:'#4657fa'}} name='ios-more'/></Button>
+                        <Text>{'Total: $' + '100'}</Text>
+                      </View>
+                        <View style={{flex:2}}/>
+                    </Footer>
             </Container>
         )
     }

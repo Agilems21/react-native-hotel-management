@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View,Button,TouchableOpacity,TextInput,ScrollView,ListView,Dimensions} from 'react-native'
+import {View,Button,TouchableOpacity,TextInput,ScrollView,ListView,Dimensions,Platform} from 'react-native'
 import {List,ListItem,Body,Icon,Left,Text,CheckBox,Footer} from 'native-base'
 import Collapsible from 'react-native-collapsible';
 import BottomBorder from '../../BottomBorderWrapper'
@@ -104,7 +104,7 @@ class SignupRoomType extends Component {
         return ( 
             
             <View style={{flex:1,backgroundColor:'white'}}>
-                
+                {Platform.OS == 'ios' ? 
                 <View style={{flex:0.5,justifyContent:this.state.editing ? 'flex-end': 'space-between',paddingTop:20,flexDirection:'row'}}>
                    {this.state.editing ? <Button title='Done' onPress={()=>this.setState({editing:false})}/> :
                      <View style={{flexDirection:'row',justifyContent:'space-between',flex:1,alignItems:'center'}}>
@@ -112,7 +112,16 @@ class SignupRoomType extends Component {
                         <Button title="Next" onPress={()=>{this.props.collectRoomType(this.compileRoomArray());Actions.signupRoomRate({roomTypes:this.state.roomTypes})}}/>
                      </View>
                    }
+                </View> :
+                <View style={{flex:0.5,justifyContent:this.state.editing ? 'flex-end': 'space-between',padding:15,flexDirection:'row'}}>
+                   {this.state.editing ? <TouchableOpacity onPress={()=>this.setState({editing:false})}><Text style={{fontSize:18,color:'#4657fa'}}>Done</Text></TouchableOpacity> :
+                     <View style={{flexDirection:'row',justifyContent:'space-between',flex:1,alignItems:'center'}}>
+                        <TouchableOpacity onPress={()=>Actions.pop()}><Text style={{fontSize:18,color:'#4657fa'}}>Back</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={()=>{this.props.collectRoomType(this.compileRoomArray());Actions.signupRoomRate({roomTypes:this.state.roomTypes})}}><Text style={{fontSize:18,color:'#4657fa'}}>Next</Text></TouchableOpacity>
+                     </View>
+                   }
                 </View>
+                }
                 <View style={{flex:9.5}}>
                     <ScrollView>
                     { this.state.names.map(name => {
@@ -160,11 +169,11 @@ class SignupRoomType extends Component {
                         )
                     })}
                    </ScrollView>
-                   <Footer style={{flexDirection:'row',alignItems:'center',justifyContent:this.state.editing ?'space-around':'flex-start',padding:10,height:Dimensions.get('window').height*0.07}}>
+                   <Footer style={{flexDirection:'row',alignItems:'center',justifyContent:this.state.editing ?'space-around':'flex-start',padding:10,height:Dimensions.get('window').height*0.07,backgroundColor: Platform.OS === 'ios' ? undefined : '#f8f8f8',borderTopColor:Platform.OS === 'ios' ? undefined :'lightgrey',borderTopWidth:Platform.OS === 'ios' ? undefined :0.25}}>
                       {this.state.editing ?
                       <View style={{flexDirection:'row',flex:1,justifyContent:'space-between',alignItems:'center'}}>
                         <TouchableOpacity><Icon name='ios-done-all' style={{color:'#4657fa'}} onPress={()=>this.checkAll()}/></TouchableOpacity>
-                        <Button title='Change Room Type' onPress={()=>this.setState({isTypeModalVisible:true})}/>
+                        {Platform.OS == 'ios' ? <Button title='Change Room Type' onPress={()=>this.setState({isTypeModalVisible:true})}/> : <TouchableOpacity  onPress={()=>this.setState({isTypeModalVisible:true})}><Text style={{color:'#4657fa'}}>Change Room Type</Text></TouchableOpacity> }
                         <ModalSelect isVisible={this.state.isTypeModalVisible} modalData={this.state.roomTypes} hidden={true}
                                     listAction={this.changeTypeMultiple(this.state.toEdit)} hide={()=>this.setState({isTypeModalVisible:false})} 
                                     show={()=>this.setState({isTypeModalVisible:true})} flex={this.state.roomTypes.length < 6 ? this.state.roomTypes.length + 2 : 8 } 

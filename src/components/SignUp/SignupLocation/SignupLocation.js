@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {View,Button,TextInput,ScrollView} from 'react-native'
-import {List,ListItem,Body,Icon,Left,Text} from 'native-base'
+import {View,Button,TextInput,ScrollView,Platform,TouchableOpacity} from 'react-native'
+import {List,ListItem,Body,Icon,Left,Text,Item,Input} from 'native-base'
 import {addressSearch} from '../../../actions/preAuth'
 import {connect} from 'react-redux'
 import {Actions} from 'react-native-router-flux'
@@ -15,26 +15,36 @@ class SignupLocation extends Component {
         return (
             <View style={{flex:1,backgroundColor:'white'}}>
                 <View style={{flex:0.5,alignItems:'flex-end',paddingTop:20}}>
+                    {Platform.OS === 'ios' ? 
                     <Button
                     title="Next"
                     onPress = {()=>{
                         this.props.unmountSearch();
                         Actions.signupHotelDetail({address:'',addressName:''})
                     }}
-                    />
+                    /> :
+                    <TouchableOpacity onPress = {()=>{
+                        this.props.unmountSearch();
+                        Actions.signupHotelDetail({address:'',addressName:''})
+                    }} style={{paddingRight:10}}>
+                        <Text style={{fontSize:18,color:'#4657fa'}}>Next</Text>
+                    </TouchableOpacity>
+                    }
                 </View>
                 <View style={{flex:1,paddingLeft:20,justifyContent:'space-around'}}>
-                    <BottomBorder bottomPadding={5}>
+                    {/* <BottomBorder bottomPadding={5}> */}
+                        <Item>
                         <Icon
                         name='ios-pin'
                         style={{color:'#4657fa'}}
                         /> 
-                        <TextInput 
+                        <Input 
                         style={{paddingLeft:25}} 
                         placeholder='Enter your address'
                         onChangeText={text => text.length > 3 ? this.props.addressSearch(text) : this.props.clearSearch()} 
                         />
-                    </BottomBorder>
+                        </Item>
+                    {/* </BottomBorder> */}
                 </View>
                 <View style={{flex:8,paddingLeft:20,justifyContent:'space-around',paddingTop:20}}>
                     {this.props.addressResults && this.props.addressResults.length > 0  ? 

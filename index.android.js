@@ -1,53 +1,33 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import {AppRegistry} from 'react-native';
+import {Provider} from 'react-redux';
+import ReduxThunk from 'redux-thunk';
+import {createLogger,logger} from 'redux-logger'
+import {createStore, applyMiddleware} from 'redux'
+import mainReducer from './src/reducers/mainReducer'
+import Router from './src/Router'
+import Reservations from './src/components/Home/Reservations/Reservations'
+import NewReservation from './src/components/Home/Reservations/NewReservation'
+
+//TODO
+//Clean up code
+//login and fail action types (reducer)
+//QR and alert
 
 export default class cosmopms extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <Provider store={store}>
+        <Router />
+      </Provider>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+const store = 
+      createStore(mainReducer,applyMiddleware(ReduxThunk,createLogger({
+        collapsed: true,
+        stateTransformer: state => state.toJS()
+      })));
 
 AppRegistry.registerComponent('cosmopms', () => cosmopms);

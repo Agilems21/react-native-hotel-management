@@ -22,3 +22,15 @@ export const addressSearch = query => dispatch => {
                 })
                 .catch(err => console.error(err))
 }
+
+export const signUp = data => dispatch => {
+    return axios.post('http://596bb42114023a0011bcb638.mockapi.io/api/v1/Signup', data)
+                .then(res => {
+                    if(res.data.msg === 'Activate Tenant Successfully'){
+                        //Signin and Common Data call
+                        Actions.main()
+                    }
+                })
+                .catch(err => console.error(err))
+}
+

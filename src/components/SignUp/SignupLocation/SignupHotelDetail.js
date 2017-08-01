@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {View,Button,TouchableOpacity,TextInput} from 'react-native'
-import {List,ListItem,Text} from 'native-base'
+import {View,Button,TouchableOpacity,TextInput,Platform} from 'react-native'
+import {List,ListItem,Text,Item,Input} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import ModalSelect from './ModalSelect'
 import {connect} from 'react-redux';
@@ -33,7 +33,8 @@ class SignupHotelDetail extends Component {
     render() {
         
         return (
-            <View style={{flex:1,backgroundColor:'white'}}>
+            <View style={{flex:1,backgroundColor:'white'}}>               
+                {Platform.OS === 'ios' ? 
                 <View style={{flex:0.5,justifyContent:'space-between',paddingTop:20,flexDirection:'row'}}>
                     <Button title="Back" onPress={()=>Actions.pop()} />
                     <Button title="Next" onPress={()=>{
@@ -45,18 +46,37 @@ class SignupHotelDetail extends Component {
                         Actions.signupFloor()
                         }} 
                         disabled={this.state.address.length < 1 || this.state.addressName.length < 1}/>
+                </View>:
+                <View style={{flex:0.5,justifyContent:'space-between',padding:15,flexDirection:'row'}}>
+                    <TouchableOpacity onPress={()=>Actions.pop()}>
+                        <Text style={{fontSize:18,color:'#4657fa'}}>Back</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{
+                        this.props.collectLocation(this.state.addressName,
+                                                   this.state.address,
+                                                   country_list[this.state.selectedCountry],
+                                                   currencyCodes[this.state.selectedCurrency],
+                                                   timeZones[this.state.selectedTimezone]);
+                        Actions.signupFloor()
+                        }}  disabled={this.state.address.length < 1 || this.state.addressName.length < 1}>
+                        <Text style={{color:this.state.address.length < 1 || this.state.addressName.length < 1 ? 'grey' : '#4657fa',fontSize:18}}>Next</Text>
+                    </TouchableOpacity> 
                 </View>
+                } 
                 <View style={{flex:9.5,justifyContent:'flex-start',paddingLeft:10,paddingTop:30}}>
-                    <View style={{borderColor:'lightgrey',borderBottomWidth:0.5,flexDirection:'row',justifyContent:'flex-start',paddingBottom:10}}>
-                        <TextInput 
+                    <View style={{flexDirection:'row',justifyContent:'flex-start',paddingBottom:10}}>
+                        <Item style={{flex:1}}>
+                        <Input 
                         style={{paddingLeft:10,flex:1,fontSize:18}} 
                         placeholder='Address Name'
                         onChangeText={text =>this.setState({addressName:text})}
                         value={this.state.addressName}
                         />
+                        </Item>
                     </View>
-                    <View style={{borderColor:'lightgrey',borderBottomWidth:0.5,flexDirection:'row',justifyContent:'flex-start',paddingBottom:10,paddingTop:10}}>
-                        <TextInput 
+                    <View style={{flexDirection:'row',justifyContent:'flex-start',paddingBottom:10,paddingTop:10}}>
+                       <Item style={{flex:1,paddingBottom:10}}>
+                        <Input 
                         ref='address'
                         multiline={true}
                         style={{paddingLeft:10,flex: 1,fontSize:18}} 
@@ -64,6 +84,7 @@ class SignupHotelDetail extends Component {
                         onChangeText={text =>this.setState({address:text})}
                         value={this.state.address}
                         />
+                        </Item>
                     </View>
                     <ModalSelect isVisible={this.state.isCountryModalVisible} modalData={country_list}
                                 listAction={this.selectCountry} selectedItem={this.state.selectedCountry}

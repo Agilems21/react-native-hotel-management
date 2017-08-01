@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View,Button,TouchableOpacity,TextInput,ScrollView} from 'react-native'
+import {View,Button,TouchableOpacity,TextInput,ScrollView,Platform} from 'react-native'
 import {List,ListItem,Body,Icon,Left,Text} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import {connect} from 'react-redux'
@@ -23,10 +23,22 @@ class SignupFloor extends Component {
     render() {
         return (
         <View style={{flex:1,backgroundColor:'white'}}>
-            <View style={{flex:0.5,justifyContent:'space-between',paddingTop:20,flexDirection:'row'}}>
-                <Button title="Back" onPress={()=>Actions.pop()}/>
-                <Button title="Next" onPress={()=>{Actions.signupRoomType();this.props.collectFloors(this.state.floors)}}/>
-            </View>
+            {Platform.OS === 'ios' ? 
+                <View style={{flex:0.5,justifyContent:'space-between',paddingTop:20,flexDirection:'row'}}>
+                    <Button title="Back" onPress={()=>Actions.pop()}/>
+                    <Button title="Next" onPress={()=>{Actions.signupRoomType();this.props.collectFloors(this.state.floors)}}/>
+                </View>
+                : 
+                <View style={{flex:0.5,justifyContent:'space-between',padding:15,flexDirection:'row'}}>
+                    <TouchableOpacity onPress={()=>Actions.pop()}>
+                        <Text style={{fontSize:18,color:'#4657fa'}}>Back</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{Actions.signupRoomType();this.props.collectFloors(this.state.floors)}}>
+                        <Text style={{color:'#4657fa',fontSize:18}}>Next</Text>
+                    </TouchableOpacity> 
+                </View>
+                }
+            
             <View style={{flex:9.5}}>
                 <ScrollView>
                     <List>

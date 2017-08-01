@@ -5,6 +5,8 @@ import BottomBorder from '../../BottomBorderWrapper'
 import Collapsible from 'react-native-collapsible';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import ResevationList from './ReservationList'
+import {reservationSearch} from '../../../actions/postAuth'
+import {connect} from 'react-redux'
 var {width,height} = Dimensions.get('window')
 
 class Reservations extends Component {
@@ -22,32 +24,39 @@ class Reservations extends Component {
         return Object.assign([], oldCollapsed, obj)
     }
 
+    componentWillMount(){
+        this.props.getUserReservations({headers:{token:this.props.token}, body:{
+            keyword: '',
+            feilds: ["guestName","rateAmount","rateCode","roomTypeCode","roomNumber"]
+        }})
+    }
+
     render() {
         return (
             <Container>
-                <Header>
+                <Header style={{backgroundColor:'#f8f8fa'}}>
                     <Left/>
                     <Body>
-                        <Title>Reservations</Title>
+                        <Title style={{color:'black'}}>Reservations</Title>
                     </Body>
                     <Right>
                         <View style={{flex:0.4}}></View>
                        <View style={{flexDirection:'row',justifyContent:'space-around',alignItems:'center',flex:2}}>
                         <Button transparent >
-                            <Icon name='ios-clipboard-outline' style={{fontSize:30}} />
+                            <Icon name='ios-clipboard-outline' style={{fontSize:30,color:'#4657fa'}} />
                         </Button>
                         <Button transparent>
-                            <Icon name='ios-search' style={{fontSize:30}}/>
+                            <Icon name='ios-search' style={{fontSize:30,color:'#4657fa'}}/>
                         </Button>
                         <Button transparent>
-                            <Icon name='ios-add' style={{fontSize:30}}/>
+                            <Icon name='ios-add' style={{fontSize:30,color:'#4657fa'}}/>
                         </Button>
                        </View>
                     </Right>
                 </Header>
                 <Content style={{backgroundColor:'#f0eff4'}}>
                     <ScrollView>
-                        <Header searchBar style={{backgroundColor:'lightgrey',height:height*0.06,paddingBottom:15}}>
+                        <Header searchBar style={{backgroundColor:'lightgrey',height:height*0.06,paddingBottom:15,paddingTop:15}}>
                             <Item style={{backgroundColor:'white',height:height*0.04}} >
                                 <Icon name="ios-search" />
                                 <Input placeholder="Search"/>
@@ -67,7 +76,7 @@ class Reservations extends Component {
                                     </TouchableOpacity>
                                 </BottomBorder>
                                 <Collapsible collapsed={section.collapsed}>
-                                    <ResevationList reservations={[{name:'Taylor Malloran',duration:'26/04/2017 to 27/04/2017',roomType:'STDB',roomRate:150,roomNo:1001},{name:'Taylor Malloran',duration:'26/04/2017 to 27/04/2017',roomType:'STDB',roomRate:150,roomNo:1001}]}/>
+                                   {this.props.userReservations ? <ResevationList reservations={this.props.userReservations.filter(reservation => reservation.reservationStatus === section.name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}).replace(/ /g,''))}/> : undefined} 
                                 </Collapsible>
                             </View>
                             )
@@ -83,5 +92,13 @@ class Reservations extends Component {
 }
 
 
+const mapDispatchToProps = dispatch => ({
+    getUserReservations: options => dispatch(reservationSearch(options))
+})
 
-export default Reservations
+const mapStateToProps = state => ({
+    token: state.get('token'),
+    userReservations: state.get('userReservations')
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Reservations)

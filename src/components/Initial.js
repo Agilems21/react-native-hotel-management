@@ -5,7 +5,8 @@ import {
   Image,
   TouchableOpacity,
   Text,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native';
 import {Actions} from 'react-native-router-flux'
 var {height, width} = Dimensions.get('window');
@@ -15,10 +16,16 @@ const Initial = ({clearSearch}) => {
     return (
         <View style={{flex:1,backgroundColor:'white'}}>
             <View style={{flex:2,alignItems:'flex-end',paddingTop:20}}>
+                {Platform.OS === 'ios' ? 
                 <Button
                 title="Sign in"
                 onPress={()=>Actions.login()}
                 />
+                : 
+                <TouchableOpacity style={{paddingRight:15}} onPress={()=>Actions.login()}>
+                    <Text style={{fontSize:18,color:'#4657fa'}}>Sign in</Text>
+                </TouchableOpacity>
+                }
             </View>
             <View style={{flex:25,alignItems:'center',justifyContent:'center'}}>
                 <Image
