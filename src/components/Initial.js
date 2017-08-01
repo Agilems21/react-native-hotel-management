@@ -16,12 +16,12 @@ const Initial = ({clearSearch}) => {
     return (
         <View style={{flex:1,backgroundColor:'white'}}>
             <View style={{flex:2,alignItems:'flex-end',paddingTop:20}}>
-                {Platform.OS === 'ios' ? 
+                {Platform.OS === 'ios' ?
                 <Button
                 title="Sign in"
                 onPress={()=>Actions.login()}
                 />
-                : 
+                :
                 <TouchableOpacity style={{paddingRight:15}} onPress={()=>Actions.login()}>
                     <Text style={{fontSize:18,color:'#4657fa'}}>Sign in</Text>
                 </TouchableOpacity>
@@ -37,13 +37,13 @@ const Initial = ({clearSearch}) => {
                 <TouchableOpacity style={{padding:15}} >
                     <Text style={{fontSize:32,color:'#4657fa'}}>Start Demo</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{paddingTop:15}} onPress={()=>{clearSearch();Actions.signupLocation()}}>
+                <TouchableOpacity style={{paddingTop:15}} onPress={()=>{clearSearch();Actions.adminSettings()}}>
                     <Text style={{color:'#4657fa',fontSize:16}}>Skip Demo and Setup New Hotel</Text>
                 </TouchableOpacity>
             </View>
         </View>
     )
-} 
+}
 
 const mapDispatchToProps = dispatch => ({
     clearSearch: () => {
