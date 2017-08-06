@@ -8,6 +8,7 @@ import mainReducer from './src/reducers/mainReducer'
 import Router from './src/Router'
 import Reservations from './src/components/Home/Reservations/Reservations'
 import NewReservation from './src/components/Home/Reservations/NewReservation'
+import RoomScreen from './src/components/Home/Rooms/RoomScreen'
 
 //TODO
 //Clean up code

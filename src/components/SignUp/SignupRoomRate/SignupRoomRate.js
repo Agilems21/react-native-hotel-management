@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {View,Button,TouchableOpacity,TextInput,ScrollView,ListView,Dimensions,Platform} from 'react-native'
+import {View,Button,TouchableOpacity,TextInput,ScrollView,ListView,Dimensions} from 'react-native'
 import {Actions} from 'react-native-router-flux'
-import {List,ListItem,Body,Icon,Left,Text,CheckBox,Footer,Input} from 'native-base'
+import {List,ListItem,Body,Icon,Left,Text,CheckBox,Footer} from 'native-base'
 import BottomBorder from '../../BottomBorderWrapper'
 import Collapsible from 'react-native-collapsible';
 import {connect} from 'react-redux'
@@ -34,23 +34,12 @@ class SignupRoomRate extends Component {
         console.log(this.state.ratePlan)
         return (
              <View style={{flex:1,backgroundColor:'white'}}>
-                {Platform.OS === 'ios' ? 
-                <View style={{flex:0.5,justifyContent:'space-between',paddingTop:20,flexDirection:'row'}}>
+                 <View style={{flex:0.5,justifyContent:this.state.editing ? 'flex-end': 'space-between',paddingTop:20,flexDirection:'row'}}>
                      <View style={{flexDirection:'row',justifyContent:'space-between',flex:1,alignItems:'center'}}>
                         <Button title="Back" onPress={()=>Actions.pop()}/>
                         <Button title="Next" onPress={()=>{this.props.collectRoomRate(this.state.ratePlan);Actions.signupAccount()}}/>
                      </View>
                 </View>
-                : 
-                <View style={{flex:0.5,justifyContent:'space-between',padding:15,flexDirection:'row'}}>
-                    <TouchableOpacity onPress={()=>Actions.pop()}>
-                        <Text style={{fontSize:18,color:'#4657fa'}}>Back</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>{this.props.collectRoomRate(this.state.ratePlan);Actions.signupAccount()}}>
-                        <Text style={{color:'#4657fa',fontSize:18}}>Next</Text>
-                    </TouchableOpacity> 
-                </View>
-                }
                 <View style={{flex:9.5}}>
                     <ScrollView>
                     {this.props.roomTypes.map(name => {
@@ -71,7 +60,7 @@ class SignupRoomRate extends Component {
                                 <View style={{flexDirection:'row',flex:0.85,justifyContent:'space-around',alignItems:'center'}}>
                                     <Text>RACK</Text>
                                     <View style={{flexDirection:'row',flex:1,justifyContent:'center',alignItems:'center'}}>
-                                        <TextInput placeholder='0.00' onChangeText={text=>this.setState({ratePlan: this.changeRate(this.state.ratePlan,index,text)})} underlineColorAndroid='transparent'/>
+                                        <TextInput placeholder='0.00' onChangeText={text=>this.setState({ratePlan: this.changeRate(this.state.ratePlan,index,text)})}/>
                                         <Text>{' ' + this.props.currency}</Text>
                                     </View>
                                 </View>

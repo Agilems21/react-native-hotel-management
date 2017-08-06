@@ -8,6 +8,7 @@ const reducer = (state = Map(),action) => {
         case 'ADD_SEARCH_RESULTS': return state.set('searchResults',action.results); break;
         case 'CLEAR_SEARCH': return state.set('searchResults',[]); break;
         case 'UMOUNT_SEARCH': return state.delete('searchResults'); break;
+        case 'GPS': return state.set('gpsAddress',action.address)
         case 'COLLECT_LOCATION': return state.merge(action.location).set('countryCode',action.location.currencyCode);
         case 'COLLECT_FLOORS': return state.set('roomFloor',action.roomFloor);
         case 'COLLECT_ROOM_TYPE': return state.set('room',action.room).set('noOfRooms',action.room.length);
@@ -15,6 +16,7 @@ const reducer = (state = Map(),action) => {
         case 'CHANGE_PHONE_NO': return state.set('contact',action.phone);
         case 'CHANGE_EMAIL': return state.set('email',action.email).set('username',action.email).set('fullname',action.email);
         case 'USER_RESERVATIONS': return state.set('userReservations',action.reservations)
+        case 'SET_ROOMS_HARDCODE': return state.set('rooms',action.rooms)
         default:return state;
     }
 }

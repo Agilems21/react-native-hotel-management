@@ -16,6 +16,8 @@ import UserConfig from './components/Admin/UserConfig'
 import UserRoleConfig from './components/Admin/UserRoleConfig'
 import UserConfigOptions from './components/Admin/UserConfigOptions'
 import AddUser from './components/Admin/AddUser'
+import RoomScreen from './components/Home/Rooms/RoomScreen'
+import UpdateStatus from './components/Home/Rooms/UpdateStatus'
 import {Platform} from 'react-native'
 
 const RouterComponent = () => {
@@ -34,6 +36,8 @@ const RouterComponent = () => {
         </Scene>
         <Scene key="main">
           <Scene key="reservations" component={Reservations} hideNavBar />
+          <Scene key="roomScreen" component={RoomScreen} hideNavBar />
+          <Scene key="updateStatus" component={UpdateStatus} hideNavBar />
         </Scene>
         <Scene key="adminSettings" component={AdminSettings} title={'Settings'} back={true} backTitle={Platform.OS == 'ios' ? "Back" : ""}/>
         <Scene key="hotelConfig" component={HotelConfig} title={'Hotel Config'} back={true} backTitle={Platform.OS == 'ios' ? "Settings" : ""}/>

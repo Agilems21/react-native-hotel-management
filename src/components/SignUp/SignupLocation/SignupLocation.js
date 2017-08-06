@@ -5,13 +5,38 @@ import {addressSearch} from '../../../actions/preAuth'
 import {connect} from 'react-redux'
 import {Actions} from 'react-native-router-flux'
 import BottomBorder from '../../BottomBorderWrapper'
+import {revGeocode} from '../../../actions/preAuth'
 
 class SignupLocation extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            address: undefined
+        }
+    }
     componentWillUnmount(){
         this.props.unmountSearch()
     }
 
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition(
+        (position) => {
+            this.props.getUserAddress(position.coords)
+        },
+        (error) => this.setState({ error: error.message }),
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+        );
+    }
+
+    componentWillReceiveProps(newProps){
+        if(newProps.gpsAddress && !this.state.address){
+            this.setState({address: newProps.gpsAddress})
+            console.log({address: newProps.gpsAddress})
+        }
+    }
+
     render() {
+        console.log('address',this.state.address)
         return (
             <View style={{flex:1,backgroundColor:'white'}}>
                 <View style={{flex:0.5,alignItems:'flex-end',paddingTop:20}}>
@@ -20,7 +45,7 @@ class SignupLocation extends Component {
                     title="Next"
                     onPress = {()=>{
                         this.props.unmountSearch();
-                        Actions.signupHotelDetail({address:'',addressName:''})
+                        Actions.signupHotelDetail({address:this.state.address,addressName:''})
                     }}
                     /> :
                     <TouchableOpacity onPress = {()=>{
@@ -41,7 +66,15 @@ class SignupLocation extends Component {
                         <Input 
                         style={{paddingLeft:25}} 
                         placeholder='Enter your address'
-                        onChangeText={text => text.length > 3 ? this.props.addressSearch(text) : this.props.clearSearch()} 
+                        value = {this.state.address}
+                        onChangeText={text => {
+                            this.setState({address: text})
+                            if(text.length > 3 ){
+                                this.props.addressSearch(text)
+                            }  else {
+                                this.props.clearSearch()
+                            } 
+                            }} 
                         />
                         </Item>
                     {/* </BottomBorder> */}
@@ -75,7 +108,8 @@ class SignupLocation extends Component {
 }
 
 const mapStateToProps = state => ({
-    addressResults: state.get('searchResults')
+    addressResults: state.get('searchResults'),
+    gpsAddress: state.get('gpsAddress')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -87,7 +121,8 @@ const mapDispatchToProps = dispatch => ({
     },
     clearSearch: () => {
         dispatch({type:'CLEAR_SEARCH'})
-    }
+    },
+    getUserAddress: (location) => dispatch(revGeocode(location))
 })
 
 

@@ -87,7 +87,7 @@ class SignupRoomType extends Component {
 
     changeTypeMultiple = (arr) => (typeIndex) => {arr.forEach(room => this.changeType(typeIndex,room.roomIndex,room.floorIndex));this.setState({isTypeModalVisible:false});}
 
-    checkAll = (uncheck) => {
+    checkAll = () => {
         let edit = []
         this.state.roomList.forEach(floor => floor.forEach(room => {
             this.toggleChecked(floor.indexOf(room),this.state.roomList.indexOf(floor),true); 
@@ -95,18 +95,27 @@ class SignupRoomType extends Component {
         }))
         this.setState({toEdit:edit})
     }
+
+    unCheckAll = () => {
+        let edit = []
+        let roomList = this.state.roomList.map(floor => floor.map(room => Object.assign(room,{checked:false})))
+        this.setState({toEdit:edit,roomList})
+    }
    
     compileRoomArray = () => {
         return [].concat.apply([], this.state.roomList).map(room => ({roomNo: room.roomNo,roomFloorCode:room.roomFloorCode,roomType:room.roomType,roomTypeId:this.state.roomTypes.indexOf(room.roomType)}))
     }
 
+    deleteChecked = () => {
+        this.setState({roomList: this.state.roomList.map(floor => floor.filter(room => room.checked != true)),toEdit:[]})  
+    }
+
     render(){
-        return ( 
-            
+        return (          
             <View style={{flex:1,backgroundColor:'white'}}>
                 {Platform.OS == 'ios' ? 
                 <View style={{flex:0.5,justifyContent:this.state.editing ? 'flex-end': 'space-between',paddingTop:20,flexDirection:'row'}}>
-                   {this.state.editing ? <Button title='Done' onPress={()=>this.setState({editing:false})}/> :
+                   {this.state.editing ? <Button title='Done' onPress={()=>{this.setState({editing:false});this.unCheckAll()}}/> :
                      <View style={{flexDirection:'row',justifyContent:'space-between',flex:1,alignItems:'center'}}>
                         <Button title="Back" onPress={()=>Actions.pop()}/>
                         <Button title="Next" onPress={()=>{this.props.collectRoomType(this.compileRoomArray());Actions.signupRoomRate({roomTypes:this.state.roomTypes})}}/>
@@ -114,7 +123,7 @@ class SignupRoomType extends Component {
                    }
                 </View> :
                 <View style={{flex:0.5,justifyContent:this.state.editing ? 'flex-end': 'space-between',padding:15,flexDirection:'row'}}>
-                   {this.state.editing ? <TouchableOpacity onPress={()=>this.setState({editing:false})}><Text style={{fontSize:18,color:'#4657fa'}}>Done</Text></TouchableOpacity> :
+                   {this.state.editing ? <TouchableOpacity onPress={()=>{this.setState({editing:false});this.unCheckAll()}}><Text style={{fontSize:18,color:'#4657fa'}}>Done</Text></TouchableOpacity> :
                      <View style={{flexDirection:'row',justifyContent:'space-between',flex:1,alignItems:'center'}}>
                         <TouchableOpacity onPress={()=>Actions.pop()}><Text style={{fontSize:18,color:'#4657fa'}}>Back</Text></TouchableOpacity>
                         <TouchableOpacity onPress={()=>{this.props.collectRoomType(this.compileRoomArray());Actions.signupRoomRate({roomTypes:this.state.roomTypes})}}><Text style={{fontSize:18,color:'#4657fa'}}>Next</Text></TouchableOpacity>
@@ -180,7 +189,7 @@ class SignupRoomType extends Component {
                                     title='Room Type'  newItem='New Room Type' newAction={()=>{this.setState({isTypeModalVisible:false,newType:true})}}
                                     onHide={()=>this.togglePrompt()}             
                                     />
-                        <TouchableOpacity><Icon name='ios-trash-outline' style={{color:'#4657fa'}}/></TouchableOpacity>
+                        <TouchableOpacity onPress={()=>this.deleteChecked()}><Icon name='ios-trash-outline' style={{color:'#4657fa'}}/></TouchableOpacity>
                       </View>
                       :
                        <TouchableOpacity onPress={()=>this.setState({editing:true})}><Icon name='ios-clipboard-outline' style={{color:'#4657fa'}}/></TouchableOpacity>}

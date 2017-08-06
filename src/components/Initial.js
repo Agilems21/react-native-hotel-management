@@ -37,7 +37,7 @@ const Initial = ({clearSearch}) => {
                 <TouchableOpacity style={{padding:15}} >
                     <Text style={{fontSize:32,color:'#4657fa'}}>Start Demo</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{paddingTop:15}} onPress={()=>{clearSearch();Actions.adminSettings()}}>
+                <TouchableOpacity style={{paddingTop:15}} onPress={()=>{clearSearch();Actions.signupLocation()}}>
                     <Text style={{color:'#4657fa',fontSize:16}}>Skip Demo and Setup New Hotel</Text>
                 </TouchableOpacity>
             </View>

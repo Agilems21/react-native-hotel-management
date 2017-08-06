@@ -34,3 +34,9 @@ export const signUp = data => dispatch => {
                 .catch(err => console.error(err))
 }
 
+export const revGeocode = location => dispatch => {
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.latitude},${location.longitude}&key=AIzaSyCgTSlYLmLwO6zmbZRMlcwSxkXMewAjk1c`)
+                .then(res => dispatch({type:'GPS',address:res.data.results[0].formatted_address}))
+                .catch(err => console.error(err))
+}
+

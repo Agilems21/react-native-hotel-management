@@ -3,12 +3,11 @@ import {
   View,
   Button,
   Image,
-  TouchableOpacity,
+  Text,
   TextInput,
-  Dimensions,
-  Platform
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
-import {Item, Text, Input} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import {connect} from 'react-redux'
 import {signIn} from '../actions/preAuth'
@@ -21,28 +20,18 @@ class Login extends Component {
     }
     render(){
         return (
-            <View style={{flex:1,backgroundColor:'white'}}>             
-                {Platform.OS === 'ios' ? 
-                <View style={{flex:3,justifyContent:'space-between',paddingTop:20,flexDirection:'row'}}>
-                <Button
-                title="Back"
-                onPress={()=>Actions.pop()}
-                />
-                <Button
-                title="QR"
-                onPress={()=>Actions.pop()}
-                /> 
-                </View>:
-                <View style={{flex:3,justifyContent:'space-between',padding:15,flexDirection:'row'}}>
-                    <TouchableOpacity onPress={()=>Actions.pop()}>
-                        <Text style={{fontSize:18,color:'#4657fa'}}>Back</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>Actions.pop()}>
-                        <Text style={{color:'#4657fa',fontSize:18}}>QR</Text>
-                    </TouchableOpacity> 
+            <View style={{flex:1,backgroundColor:'white'}}>
+                <View style={{flex:2,justifyContent:'space-between',paddingTop:20,flexDirection:'row'}}>
+                    <Button
+                    title="Back"
+                    onPress={()=>Actions.pop()}
+                    />
+                    <Button
+                    title="QR"
+                    onPress={()=>Actions.pop()}
+                    />
                 </View>
-                }          
-                <View style={{flex:22,alignItems:'center',justifyContent:'center'}}>
+                <View style={{flex:23,alignItems:'center',justifyContent:'center'}}>
                     <Image
                     style={{width:width*0.55,height:height*0.35}}
                     source={require('../assets/cosmo_logo.png')}
@@ -50,36 +39,32 @@ class Login extends Component {
                 </View>
                 <View style={{flex:15,backgroundColor:'white',justifyContent:'flex-start'}}>
                     <View style={{flex:3,padding:10}}>
-                        <Item>
+                        <View style={{borderColor:'lightgrey',borderBottomWidth:0.5,flexDirection:'row',justifyContent:'flex-start',paddingBottom:15}}>
                             <Text style={{color:'black',fontSize:17}}>Username</Text>
-                            <Input 
+                            <TextInput 
                             style={{paddingLeft:80}} 
                             placeholder='Required'
                             onChangeText={text=>this.props.userFieldChanged(text)} 
-                            underlineColorAndroid='transparent'
                             value={this.props.username}
                             />
-                        </Item>
-                        <Item>
+                        </View>
+                        <View style={{borderColor:'lightgrey',borderBottomWidth:0.5,flexDirection:'row',justifyContent:'flex-start',paddingBottom:15,paddingTop:20}}>
                             <Text style={{color:'black',fontSize:17}}>Password</Text>
-                            <Input 
+                            <TextInput 
                             secureTextEntry={true} 
                             style={{paddingLeft:85}} 
                             placeholder='Required' 
                             onChangeText={text=>this.props.passFieldChanged(text)} 
-                            underlineColorAndroid='transparent'
                             value={this.props.password}
                             />
-                        </Item>
+                        </View>
                         <TouchableOpacity style={{paddingTop:10}}>
                             <Text style={{color:'#4657fa',fontSize:14}}>Reset Password</Text>
                         </TouchableOpacity>
                     </View>
-                    <View  style={{flex:2,justifyContent:'flex-start',alignItems:'center',paddingTop:50}} >
-                    <TouchableOpacity onPress={()=>this.props.signIn(this.props.username,this.props.password)}>
+                    <TouchableOpacity style={{flex:2,justifyContent:'flex-start',alignItems:'center',paddingTop:50}} onPress={()=>this.props.signIn(this.props.username,this.props.password)}>
                         <Text style={{color:'#4657fa',fontSize:22}}>Sign In</Text>
                     </TouchableOpacity>
-                    </View>
                 </View>
             </View>
         )
