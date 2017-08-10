@@ -29,8 +29,8 @@ class UpdateStatus extends Component {
                 <Header style={{backgroundColor:'#f8f8fa'}}>
                     <Left>
                         <Button transparent onPress={()=>Actions.pop()}>
-                            <Icon name='ios-arrow-back' style={{fontSize:30,color:'#4657fa'}}/>
-                            <Text style={{color:'#4657fa',fontSize:17}}> Rooms</Text>
+                            <Icon name='ios-arrow-back' style={{fontSize:30,color:'#007AFF'}}/>
+                            <Text style={{color:'#007AFF',fontSize:17}}> Rooms</Text>
                         </Button>
                     </Left>
                     <Right>
@@ -39,14 +39,14 @@ class UpdateStatus extends Component {
                                                                                                                                                                                                                     outOfOrderFrom:this.state.outOfOrderFrom,
                                                                                                                                                                                                                     outOfOrderTo:this.state.outOfOrderTo
                                                                                                                                                                                                                     }}}) : room));Actions.pop()}} >
-                            <Text style={{color:'#4657fa',fontSize:17}}>Done</Text>
+                            <Text style={{color:'#007AFF',fontSize:17}}>Done</Text>
                         </Button> 
                     </Right>
                 </Header>
                 <Content style={{backgroundColor:'white'}}>
                     <ScrollView style={{flex:1}}>
                         <TouchableOpacity style={{flexDirection:'row',justifyContent:'flex-end',alignItems:'center',height:0.06*height,borderColor:'grey',borderTopWidth:0.5,borderBottomWidth:0.5,padding:8}}>
-                            <Text style={{color:'#4657fa'}}>{this.props.checkedRooms.join() + ' '}</Text>
+                            <Text style={{color:'#007AFF'}}>{this.props.checkedRooms.join() + ' '}</Text>
                             <Icon name='ios-arrow-down' style={{fontSize:17}}/>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.firstThree} onPress={()=>this.setState({checked:'Inspected'})}>

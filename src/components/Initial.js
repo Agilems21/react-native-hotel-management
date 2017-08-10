@@ -23,22 +23,22 @@ const Initial = ({clearSearch}) => {
                 />
                 :
                 <TouchableOpacity style={{paddingRight:15}} onPress={()=>Actions.login()}>
-                    <Text style={{fontSize:18,color:'#4657fa'}}>Sign in</Text>
+                    <Text style={{fontSize:18,color:'#007AFF'}}>Sign in</Text>
                 </TouchableOpacity>
                 }
             </View>
             <View style={{flex:25,alignItems:'center',justifyContent:'center'}}>
                 <Image
                 style={{width:width*0.7,height:height*0.45}}
-                source={require('../assets/cosmo_logo.png')}
+                source={require('../assets/logo-cosmo.png')}
                 />
             </View>
-            <View style={{flex:13,backgroundColor:'white',justifyContent:'flex-start',alignItems:'center'}}>
+            <View style={{flex:13,justifyContent:'flex-start',alignItems:'center'}}>
                 <TouchableOpacity style={{padding:15}} >
-                    <Text style={{fontSize:32,color:'#4657fa'}}>Start Demo</Text>
+                    <Text style={{fontSize:32,color:'#007AFF'}}>Start Demo</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{paddingTop:15}} onPress={()=>{clearSearch();Actions.signupLocation()}}>
-                    <Text style={{color:'#4657fa',fontSize:16}}>Skip Demo and Setup New Hotel</Text>
+                    <Text style={{color:'#007AFF',fontSize:16}}>Skip Demo and Setup New Hotel</Text>
                 </TouchableOpacity>
             </View>
         </View>

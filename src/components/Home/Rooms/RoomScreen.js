@@ -78,8 +78,8 @@ class RoomScreen extends Component {
                                 this.setState({editing:false});
                              }
                             }}>
-                            <Icon name='ios-arrow-back' style={{fontSize:30,color:'#4657fa'}}/>
-                            <Text style={{color:'#4657fa',fontSize:17}}> Back</Text>
+                            <Icon name='ios-arrow-back' style={{fontSize:30,color:'#007AFF'}}/>
+                            <Text style={{color:'#007AFF',fontSize:17}}> Back</Text>
                         </Button>
                     </Left>
                     <Body>
@@ -88,7 +88,7 @@ class RoomScreen extends Component {
                     <Right>
                         {!this.state.editing ? 
                             <Button transparent onPress={()=>this.setState({editing: true})}>
-                                <Text style={{color:'#4657fa',fontSize:17}}>Edit</Text>
+                                <Text style={{color:'#007AFF',fontSize:17}}>Edit</Text>
                             </Button> 
                             : undefined
                         }
@@ -96,9 +96,9 @@ class RoomScreen extends Component {
                 </Header>
                 <Content style={{backgroundColor:'#f0eff4'}}>
                     <Segment>
-                        <Button  style={{backgroundColor:this.state.activeSegment == 1 ? '#4657fa' : undefined}} first active={this.state.activeSegment == 1} onPress={()=>this.setState({activeSegment: 1})}><Text style={{color: this.state.activeSegment == 1 ? 'white' : '#4657fa'}}>Floor</Text></Button>
-                        <Button  style={{backgroundColor:this.state.activeSegment == 2 ? '#4657fa' : undefined}} active={this.state.activeSegment == 2} onPress={()=>this.setState({activeSegment: 2})}><Text style={{color: this.state.activeSegment == 2 ? 'white' : '#4657fa'}}>Room Type</Text></Button>
-                        <Button style={{backgroundColor:this.state.activeSegment == 3 ? '#4657fa' : undefined}} last active={this.state.activeSegment == 3} onPress={()=>this.setState({activeSegment: 3})}><Text style={{color: this.state.activeSegment == 3 ? 'white' : '#4657fa'}}>Status</Text></Button>
+                        <Button  style={{backgroundColor:this.state.activeSegment == 1 ? '#007AFF' : undefined}} first active={this.state.activeSegment == 1} onPress={()=>this.setState({activeSegment: 1})}><Text style={{color: this.state.activeSegment == 1 ? 'white' : '#007AFF'}}>Floor</Text></Button>
+                        <Button  style={{backgroundColor:this.state.activeSegment == 2 ? '#007AFF' : undefined}} active={this.state.activeSegment == 2} onPress={()=>this.setState({activeSegment: 2})}><Text style={{color: this.state.activeSegment == 2 ? 'white' : '#007AFF'}}>Room Type</Text></Button>
+                        <Button style={{backgroundColor:this.state.activeSegment == 3 ? '#007AFF' : undefined}} last active={this.state.activeSegment == 3} onPress={()=>this.setState({activeSegment: 3})}><Text style={{color: this.state.activeSegment == 3 ? 'white' : '#007AFF'}}>Status</Text></Button>
                     </Segment>
                     {this.props.rooms ? <ScrollView>
                         {this.state.activeSegment == 2 ? this.state.types.map(type => {
@@ -206,7 +206,7 @@ class RoomScreen extends Component {
                 {this.state.checkedRooms.length > 0 ? 
                     <Footer style={{alignItems:'center',justifyContent:'center',padding:10,height:Dimensions.get('window').height*0.07,backgroundColor: Platform.OS === 'ios' ? undefined : '#f8f8f8',borderTopColor:Platform.OS === 'ios' ? undefined :'lightgrey',borderTopWidth:Platform.OS === 'ios' ? undefined :0.25}}>
                         <Button transparent style={{position:'absolute',top:0}} onPress={()=>Actions.updateStatus({checkedRooms:this.state.checkedRooms})}>
-                            <Text style={{color:'#4657fa',fontWeight:'bold'}}>Update Room Status</Text>
+                            <Text style={{color:'#007AFF',fontWeight:'bold'}}>Update Room Status</Text>
                         </Button>
                     </Footer> : undefined
                 }
@@ -232,7 +232,7 @@ const mapStateToProps = state => ({
 const RoomItem = ({roomNumber, roomType, status,checked,onTapped,editing}) => 
     <TouchableOpacity onPress={onTapped}>
     <View style={{backgroundColor:'white',borderColor:'grey',borderWidth:0.5,alignItems:'center',padding:15,width:0.21*width,height:0.2*width}}>
-        {checked ? <Icon style={{position:'absolute',top:1,right:1,color:'#4657fa',fontSize:22}} name='ios-checkmark-circle'/> : undefined}
+        {checked ? <Icon style={{position:'absolute',top:1,right:1,color:'#007AFF',fontSize:22}} name='ios-checkmark-circle'/> : undefined}
         <Text style={{textAlign:'center'}}>{roomNumber}</Text>
         <Text style={{textAlign:'center'}}>{roomType}</Text>
         <Text style={{textAlign:'center',color:'grey',fontSize:10}}>{status}</Text>

@@ -8,8 +8,10 @@ import ModalSelect from '../SignupLocation/ModalSelect'
 import {Actions} from 'react-native-router-flux' 
 import Prompt from 'react-native-prompt';
 import RoomTypeItem from './RoomTypeItem';
-
-//TODO: Implement Select Floor and Remove Rooms
+import { createIconSetFromFontello } from 'react-native-vector-icons';
+import fontelloConfig from '../../../assets/config.json';
+const CustomIcon = createIconSetFromFontello(fontelloConfig);
+var {width,height} = Dimensions.get('window');
 
 class SignupRoomType extends Component {
     constructor(props) {
@@ -110,6 +112,13 @@ class SignupRoomType extends Component {
         this.setState({roomList: this.state.roomList.map(floor => floor.filter(room => room.checked != true)),toEdit:[]})  
     }
 
+    selectFloor(index) {
+        let addToEdit = this.state.roomList[index].filter(room => !room.checked).map(room => ({floorIndex:index,roomIndex:this.state.roomList[index].indexOf(room)}))
+        let newToEdit = this.state.toEdit.concat(addToEdit)
+        let roomList = this.state.roomList.map(floor => floor.map(room => this.state.roomList.indexOf(floor) == index ? Object.assign(room,{checked:true}) : room))
+        this.setState({roomList,toEdit:newToEdit})
+    }
+
     render(){
         return (          
             <View style={{flex:1,backgroundColor:'white'}}>
@@ -123,10 +132,10 @@ class SignupRoomType extends Component {
                    }
                 </View> :
                 <View style={{flex:0.5,justifyContent:this.state.editing ? 'flex-end': 'space-between',padding:15,flexDirection:'row'}}>
-                   {this.state.editing ? <TouchableOpacity onPress={()=>{this.setState({editing:false});this.unCheckAll()}}><Text style={{fontSize:18,color:'#4657fa'}}>Done</Text></TouchableOpacity> :
+                   {this.state.editing ? <TouchableOpacity onPress={()=>{this.setState({editing:false});this.unCheckAll()}}><Text style={{fontSize:18,color:'#007AFF'}}>Done</Text></TouchableOpacity> :
                      <View style={{flexDirection:'row',justifyContent:'space-between',flex:1,alignItems:'center'}}>
-                        <TouchableOpacity onPress={()=>Actions.pop()}><Text style={{fontSize:18,color:'#4657fa'}}>Back</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={()=>{this.props.collectRoomType(this.compileRoomArray());Actions.signupRoomRate({roomTypes:this.state.roomTypes})}}><Text style={{fontSize:18,color:'#4657fa'}}>Next</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={()=>Actions.pop()}><Text style={{fontSize:18,color:'#007AFF'}}>Back</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={()=>{this.props.collectRoomType(this.compileRoomArray());Actions.signupRoomRate({roomTypes:this.state.roomTypes})}}><Text style={{fontSize:18,color:'#007AFF'}}>Next</Text></TouchableOpacity>
                      </View>
                    }
                 </View>
@@ -139,13 +148,18 @@ class SignupRoomType extends Component {
                             <List key={index} style={{paddingTop:20}}>
                                 <View style={{paddingLeft:15}}>
                                     <BottomBorder>
-                                        <TouchableOpacity onPress={()=>this.setState({collapsed:this.newCollapsed(this.state.collapsed,index)})} style={{flex:1,alignItems:'center',paddingTop:10,paddingRight:10, flexDirection:'row',justifyContent:'space-between',alignItems:'flex-end'}}>
+                                        <View style={{flex:1,alignItems:'center',paddingTop:10,paddingRight:10, flexDirection:'row',justifyContent:'space-between',alignItems:'flex-end'}}>
                                             <Text style={{fontSize:12,color:'darkgrey'}}>{name}</Text>
-                                            {this.state.collapsed[index] ? 
-                                            <Icon style={{fontSize:18,color:'lightgrey'}} name='ios-arrow-forward'/>:
-                                            <Icon style={{fontSize:18,color:'lightgrey'}} name='ios-arrow-down'/>
-                                            }
-                                        </TouchableOpacity>
+                                            <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+                                                {/* SELECT FUNCTIONALITY {this.state.editing ? <TouchableOpacity onPress={()=>this.selectFloor(index)} style={{width:0.15*width}}><Text style={{fontSize:12,color:'#007AFF'}}>SELECT</Text></TouchableOpacity> : undefined} */}
+                                                <TouchableOpacity onPress={()=>this.setState({collapsed:this.newCollapsed(this.state.collapsed,index)})}>                              
+                                                    {this.state.collapsed[index] ? 
+                                                    <Icon style={{fontSize:18,color:'lightgrey'}} name='ios-arrow-forward'/>:
+                                                    <Icon style={{fontSize:18,color:'lightgrey'}} name='ios-arrow-down'/>
+                                                    }
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
                                     </BottomBorder>
                                 </View>
                                     
@@ -178,21 +192,21 @@ class SignupRoomType extends Component {
                         )
                     })}
                    </ScrollView>
-                   <Footer style={{flexDirection:'row',alignItems:'center',justifyContent:this.state.editing ?'space-around':'flex-start',padding:10,height:Dimensions.get('window').height*0.07,backgroundColor: Platform.OS === 'ios' ? undefined : '#f8f8f8',borderTopColor:Platform.OS === 'ios' ? undefined :'lightgrey',borderTopWidth:Platform.OS === 'ios' ? undefined :0.25}}>
+                   <Footer style={{flexDirection:'row',alignItems:'center',justifyContent:this.state.editing ?'space-around':'flex-start',padding:10,height:Platform.OS == 'ios' ? undefined : height*0.07,backgroundColor:'#f8f8f8',borderColor:'lightgrey',borderWidth:1,margin:0}}>
                       {this.state.editing ?
                       <View style={{flexDirection:'row',flex:1,justifyContent:'space-between',alignItems:'center'}}>
-                        <TouchableOpacity><Icon name='ios-done-all' style={{color:'#4657fa'}} onPress={()=>this.checkAll()}/></TouchableOpacity>
-                        {Platform.OS == 'ios' ? <Button title='Change Room Type' onPress={()=>this.setState({isTypeModalVisible:true})}/> : <TouchableOpacity  onPress={()=>this.setState({isTypeModalVisible:true})}><Text style={{color:'#4657fa'}}>Change Room Type</Text></TouchableOpacity> }
+                        <TouchableOpacity onPress={()=>this.checkAll()} style={{paddingLeft:8}}><CustomIcon size={25} name='click-all' style={{color:'#007AFF'}}/></TouchableOpacity>
+                        <TouchableOpacity  onPress={()=>this.setState({isTypeModalVisible:true})} style={{paddingLeft:29}}><Text style={{color:'#007AFF',fontWeight:'600',fontSize:17}}>Change Room Type</Text></TouchableOpacity>
                         <ModalSelect isVisible={this.state.isTypeModalVisible} modalData={this.state.roomTypes} hidden={true}
                                     listAction={this.changeTypeMultiple(this.state.toEdit)} hide={()=>this.setState({isTypeModalVisible:false})} 
                                     show={()=>this.setState({isTypeModalVisible:true})} flex={this.state.roomTypes.length < 6 ? this.state.roomTypes.length + 2 : 8 } 
                                     title='Room Type'  newItem='New Room Type' newAction={()=>{this.setState({isTypeModalVisible:false,newType:true})}}
                                     onHide={()=>this.togglePrompt()}             
                                     />
-                        <TouchableOpacity onPress={()=>this.deleteChecked()}><Icon name='ios-trash-outline' style={{color:'#4657fa'}}/></TouchableOpacity>
+                        <TouchableOpacity style={{paddingRight:8}} size={25} onPress={()=>this.deleteChecked()}><Icon name='ios-trash-outline' style={{color:'#007AFF'}}/></TouchableOpacity>
                       </View>
                       :
-                       <TouchableOpacity onPress={()=>this.setState({editing:true})}><Icon name='ios-clipboard-outline' style={{color:'#4657fa'}}/></TouchableOpacity>}
+                       <TouchableOpacity onPress={()=>this.setState({editing:true})} style={{paddingLeft:8}}><CustomIcon size={25} name='edit_blue' color='#007AFF'/></TouchableOpacity>}
                     </Footer>
                 </View>
                 <Prompt

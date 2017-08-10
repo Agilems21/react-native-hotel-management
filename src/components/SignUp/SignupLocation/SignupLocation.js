@@ -11,7 +11,7 @@ class SignupLocation extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            address: undefined
+            address: 'GETTING GPS LOCATION'
         }
     }
     componentWillUnmount(){
@@ -23,13 +23,13 @@ class SignupLocation extends Component {
         (position) => {
             this.props.getUserAddress(position.coords)
         },
-        (error) => this.setState({ error: error.message }),
+        (error) => this.setState({ address: error.message }),
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
     }
 
     componentWillReceiveProps(newProps){
-        if(newProps.gpsAddress && !this.state.address){
+        if(newProps.gpsAddress && this.state.address === 'GETTING GPS LOCATION'){
             this.setState({address: newProps.gpsAddress})
             console.log({address: newProps.gpsAddress})
         }
@@ -52,7 +52,7 @@ class SignupLocation extends Component {
                         this.props.unmountSearch();
                         Actions.signupHotelDetail({address:'',addressName:''})
                     }} style={{paddingRight:10}}>
-                        <Text style={{fontSize:18,color:'#4657fa'}}>Next</Text>
+                        <Text style={{fontSize:18,color:'#007AFF'}}>Next</Text>
                     </TouchableOpacity>
                     }
                 </View>
@@ -61,7 +61,7 @@ class SignupLocation extends Component {
                         <Item>
                         <Icon
                         name='ios-pin'
-                        style={{color:'#4657fa'}}
+                        style={{color:'#007AFF'}}
                         /> 
                         <Input 
                         style={{paddingLeft:25}} 

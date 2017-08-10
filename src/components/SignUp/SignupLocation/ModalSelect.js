@@ -27,7 +27,7 @@ const ModalSelect = ({buttonText,isVisible,modalData,listAction,selectedItem,hid
                                 <ListItem key={modalData.indexOf(item)} onPress={()=>listAction(modalData.indexOf(item))}>
                                     <View style={{alignItems:'center',flex:1}}>
                                         {modalData.indexOf(item) != selectedItem ? 
-                                        <Text style={{color:'#4657fa',fontSize:18,textAlign:'center'}}>{item}</Text>
+                                        <Text style={{color:'#007AFF',fontSize:18,textAlign:'center'}}>{item}</Text>
                                         : <Text style={{fontSize:18,textAlign:'center'}}>{item}</Text> }
                                     </View>
                                     
@@ -36,7 +36,7 @@ const ModalSelect = ({buttonText,isVisible,modalData,listAction,selectedItem,hid
                             {newItem ?
                             <ListItem onPress={()=>newAction()}>
                                     <View style={{alignItems:'center',flex:1}}>
-                                        <Text style={{color:'#4657fa',fontSize:18,textAlign:'center'}}>{newItem}</Text>
+                                        <Text style={{color:'#007AFF',fontSize:18,textAlign:'center'}}>{newItem}</Text>
                                     </View>
                                     
                             </ListItem> : undefined}
